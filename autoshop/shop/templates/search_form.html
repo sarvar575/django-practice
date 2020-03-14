@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% if error %}
+        <p style="color: red;">Пожалуйста, отправьте поисковой запрос</p>
+    {% endif %}
+    <form action="" method="get">
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+    </form>
+<script src='{% static "js/jquery.js" %}'></script>
+<script>
+    $(document).ready(function(){
+        $('.add_to_cart').on('click', function(e){
+            e.preventDefault()
+            product_slug = $(this).attr('data-slug')
+            data = {
+                product_slug: product_slug
+            }
+            $.ajax({
+                type: "GET",
+                url: '{% url "add_to_cart" %}',
+                data: data,
+                success: function(data){
+                    $("#cart_count").html(data.cart_total)
+
+                }
+            })
+        })
+    })
+</script>
+{% endblock content %}
